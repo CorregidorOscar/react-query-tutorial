@@ -1,27 +1,34 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 import { getPosts } from "../api/posts";
 
 export default function Posts({ setPostId }) {
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [posts, setPosts] = useState(null);
+  //useQuery devuelve un objeto
+  //primer parametro array de claves unicas para identificar la consuilta
+  //segundo parametro: promesa que arroja un resultado o error
+  //posts es un alias para data
+  const { data: posts, error, isLoading } = useQuery(["posts"], getPosts);
+  //version sin react-query
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [error, setError] = useState(null);
+  // const [posts, setPosts] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        const data = await getPosts();
-        setPosts(data);
-        setError(null);
-      } catch (error) {
-        setError(error);
-        setPosts(null);
-      }
-      setIsLoading(false);
-    };
-    fetchData();
-  }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     setIsLoading(true);
+  //     try {
+  //       const data = await getPosts();
+  //       setPosts(data);
+  //       setError(null);
+  //     } catch (error) {
+  //       setError(error);
+  //       setPosts(null);
+  //     }
+  //     setIsLoading(false);
+  //   };
+  //   fetchData();
+  // }, []);
 
   if (isLoading) {
     return (
